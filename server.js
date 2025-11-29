@@ -15,6 +15,7 @@ app.use(express.json({ limit: '50mb' }));
 const dataDir = path.join(__dirname, 'data');
 const usersFile = path.join(dataDir, 'users.json');
 const artFile = path.join(dataDir, 'art.json');
+const sessionFile = path.join(dataDir, 'session.json');
 
 // Ensure data directory and files exist
 const initializeFiles = () => {
@@ -25,6 +26,11 @@ const initializeFiles = () => {
   // Initialize users file
   if (!fs.existsSync(usersFile)) {
     fs.writeFileSync(usersFile, JSON.stringify([], null, 2));
+  }
+
+  // Initialize session file
+  if (!fs.existsSync(sessionFile)) {
+    fs.writeFileSync(sessionFile, JSON.stringify(null, null, 2));
   }
 
   // Initialize art file with seed data
@@ -62,6 +68,19 @@ const readArt = () => {
 
 const writeArt = (art) => {
   fs.writeFileSync(artFile, JSON.stringify(art, null, 2));
+};
+
+const readSession = () => {
+  try {
+    const raw = fs.readFileSync(sessionFile, 'utf8');
+    return raw ? JSON.parse(raw) : null;
+  } catch (error) {
+    return null;
+  }
+};
+
+const writeSession = (s) => {
+  fs.writeFileSync(sessionFile, JSON.stringify(s, null, 2));
 };
 
 // Routes - USERS
@@ -114,6 +133,23 @@ app.delete('/api/art/:id', (req, res) => {
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'Server running', dataDir });
+});
+
+// Session routes - persist current session to file
+app.get('/api/session', (req, res) => {
+  const s = readSession();
+  res.json(s);
+});
+
+app.post('/api/session', (req, res) => {
+  const user = req.body;
+  writeSession(user);
+  res.json(user);
+});
+
+app.delete('/api/session', (req, res) => {
+  writeSession(null);
+  res.json({ success: true });
 });
 
 // Serve frontend build (if present)

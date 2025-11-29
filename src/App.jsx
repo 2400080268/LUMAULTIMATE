@@ -86,12 +86,37 @@ const LumaDB = {
 
   // Session Operations (still use sessionStorage)
   session: {
-    get: () => {
-      const s = sessionStorage.getItem('luma_session');
-      return s ? JSON.parse(s) : null;
+    get: async () => {
+      try {
+        const res = await fetch(`${API_BASE}/session`);
+        return res.ok ? await res.json() : null;
+      } catch (e) {
+        console.error('Failed to fetch session:', e);
+        return null;
+      }
     },
-    set: (user) => sessionStorage.setItem('luma_session', JSON.stringify(user)),
-    clear: () => sessionStorage.removeItem('luma_session')
+    set: async (user) => {
+      try {
+        const res = await fetch(`${API_BASE}/session`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(user)
+        });
+        return res.ok ? await res.json() : null;
+      } catch (e) {
+        console.error('Failed to set session:', e);
+        return null;
+      }
+    },
+    clear: async () => {
+      try {
+        const res = await fetch(`${API_BASE}/session`, { method: 'DELETE' });
+        return res.ok;
+      } catch (e) {
+        console.error('Failed to clear session:', e);
+        return false;
+      }
+    }
   }
 };
 
