@@ -262,13 +262,19 @@ const AuthScreen = ({ users, setUsers, onLogin }) => {
     if (isSignup) {
       // Register
       if (users.find(u => u.email === formData.email)) return alert("Email taken!");
-      
+
       const newUser = { ...formData, id: Date.now(), orders: [] };
-      
-      // Use DB Layer
-      const updatedList = LumaDB.users.add(newUser);
-      setUsers(updatedList);
-      onLogin(newUser);
+
+      // Use DB Layer (async)
+      (async () => {
+        const created = await LumaDB.users.add(newUser);
+        if (created) {
+          setUsers(prev => [...prev, created]);
+          onLogin(created);
+        } else {
+          alert('Failed to create account. Try again.');
+        }
+      })();
     } else {
       // Login
       const found = users.find(u => u.email === formData.email && u.password === formData.password);
