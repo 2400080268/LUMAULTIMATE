@@ -1,0 +1,11 @@
+@{
+  "serviceDetails" = @{
+    "repo" = "https://github.com/2400080268/LUMAULTIMATE"
+    "branch" = "main"
+    "buildCommand" = "npm install && npm run build"
+    "startCommand" = "npm start"
+  }
+  "name" = "luma-gallery"
+  "type" = "web_service"
+  "environmentId" = "oregon"
+} | ConvertTo-Json

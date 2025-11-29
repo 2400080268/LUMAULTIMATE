@@ -9,5 +9,16 @@
     "bio": "student",
     "id": 1764427107648,
     "orders": []
+  },
+  {
+    "email": "feroz@gmail.com",
+    "password": "feroz@gmail.com",
+    "name": "feroz ",
+    "role": "buyer",
+    "address": "feroz@gmail.com",
+    "phone": "464564",
+    "bio": "465465",
+    "id": 1764432959113,
+    "orders": []
   }
 ]

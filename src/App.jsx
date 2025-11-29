@@ -4,7 +4,7 @@ import {
   MapPin, Phone, Mail, Image as ImageIcon, X, CheckCircle, Loader, Camera 
 } from 'lucide-react';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://lumaultimate.onrender.com/api';
 
 // --- BACKEND API LAYER ---
 const LumaDB = {
