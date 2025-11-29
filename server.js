@@ -116,7 +116,18 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'Server running', dataDir });
 });
 
+// Serve frontend build (if present)
+const distDir = path.join(__dirname, 'dist');
+if (fs.existsSync(distDir)) {
+  app.use(express.static(distDir));
+  // SPA fallback
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(distDir, 'index.html'));
+  });
+}
+
 app.listen(PORT, () => {
   console.log(`✅ LUMA Server running on http://localhost:${PORT}`);
   console.log(`📁 Data stored in: ${dataDir}`);
+  if (fs.existsSync(distDir)) console.log(`📦 Serving frontend from: ${distDir}`);
 });
