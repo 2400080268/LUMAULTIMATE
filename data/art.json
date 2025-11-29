@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "title": "Cyber Punk City",
+    "artist": "Demo Artist",
+    "price": 2400,
+    "category": "Digital",
+    "img": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800"
+  },
+  {
+    "id": 2,
+    "title": "Abstract Blue",
+    "artist": "Demo Artist",
+    "price": 1200,
+    "category": "Painting",
+    "img": "https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=800"
+  }
+]
